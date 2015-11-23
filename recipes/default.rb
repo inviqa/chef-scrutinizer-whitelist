@@ -15,23 +15,14 @@ include_recipe 'iptables-ng'
 
 ips = JSON.parse(File.read(ip_json_file))
 
-iptables_ng_chain 'SCRUTINIZER-FIREWALL delete' do
-  chain 'SCRUTINIZER-FIREWALL'
-  action :delete
-end
-
-iptables_ng_chain 'SCRUTINIZER-FIREWALL create' do
-  chain 'SCRUTINIZER-FIREWALL'
-  policy 'FORWARD [0:0]'
-  action :create
-end
+iptables_ng_chain 'SCRUTINIZER-FIREWALL'
 
 iptables_ng_rule "#{node['scrutinizer-whitelist']['priority']}-SCRUTINIZER-FIREWALL" do
   rule '--jump SCRUTINIZER-FIREWALL'
   action :create_if_missing
 end
 
-iptables_ng_rule 'ipaddresses' do
+iptables_ng_rule 'scrutinizer-ipaddresses' do
   chain 'SCRUTINIZER-FIREWALL'
   ip_version 4
   rule ips['hook_ips'].map { |ip|
