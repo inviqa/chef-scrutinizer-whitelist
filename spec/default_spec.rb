@@ -1,4 +1,3 @@
-
 describe 'scrutinizer-whitelist::default' do
   let(:chef_run) do
     ChefSpec::SoloRunner.new(file_cache_path: '/var/chef/cache') do |node|
