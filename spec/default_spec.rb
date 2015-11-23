@@ -41,7 +41,7 @@ EOF
   end
 
   it 'should add rules for the IP addresses in the file' do
-    expect(chef_run).to create_iptables_ng_rule('scrutinizer ipaddresses').with(
+    expect(chef_run).to create_iptables_ng_rule('scrutinizer-ipaddresses').with(
       chain: 'SCRUTINIZER-FIREWALL',
       ip_version: 4,
       rule: %w(1.2.3.4 5.6.7.8).map { |ip| "--source #{ip} --protocol tcp --dport 22 --jump ACCEPT" }
