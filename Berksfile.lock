@@ -1,0 +1,11 @@
+DEPENDENCIES
+  build-essential (<= 1.4.2)
+  scrutinizer-whitelist
+    path: .
+    metadata: true
+
+GRAPH
+  build-essential (1.4.2)
+  iptables-ng (2.2.8)
+  scrutinizer-whitelist (1.0.0)
+    iptables-ng (~> 2.2.0)
