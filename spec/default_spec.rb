@@ -31,7 +31,7 @@ EOF
   end
 
   it 'should create a new scrutinizer firewall chain' do
-    expect(chef_run).to create_iptables_ng_chain('SCRUTINIZER-FIREWALL').with(policy: 'RETURN [0:0]')
+    expect(chef_run).to create_iptables_ng_chain('SCRUTINIZER-FIREWALL')
   end
 
   it 'should add the new chain to the INPUT with the configured priority' do
