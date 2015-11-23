@@ -22,7 +22,7 @@ end
 
 iptables_ng_chain 'SCRUTINIZER-FIREWALL create' do
   chain 'SCRUTINIZER-FIREWALL'
-  policy 'FORWARD [0:0]'
+  policy 'RETURN [0:0]'
   action :create
 end
 
