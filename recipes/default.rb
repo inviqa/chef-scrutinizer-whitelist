@@ -24,7 +24,7 @@ iptables_ng_rule "#{node['scrutinizer-whitelist']['priority']}-SCRUTINIZER-FIREW
   action :create_if_missing
 end
 
-iptables_ng_rule 'ipaddresses' do
+iptables_ng_rule 'scrutinizer ipaddresses' do
   chain 'SCRUTINIZER-FIREWALL'
   ip_version 4
   rule ips['hook_ips'].map { |ip|
