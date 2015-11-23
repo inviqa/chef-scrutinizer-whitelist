@@ -30,10 +30,6 @@ EOF
     expect(chef_run).to include_recipe('iptables-ng')
   end
 
-  it 'should delete an existing scrutinizer firewall chain' do
-    expect(chef_run).to delete_iptables_ng_chain('SCRUTINIZER-FIREWALL delete').with(chain: 'SCRUTINIZER-FIREWALL')
-  end
-
   it 'should create a new scrutinizer firewall chain' do
     expect(chef_run).to create_iptables_ng_chain('SCRUTINIZER-FIREWALL create').with(
       chain: 'SCRUTINIZER-FIREWALL',

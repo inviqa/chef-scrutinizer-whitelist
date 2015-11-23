@@ -15,15 +15,8 @@ include_recipe 'iptables-ng'
 
 ips = JSON.parse(File.read(ip_json_file))
 
-iptables_ng_chain 'SCRUTINIZER-FIREWALL delete' do
-  chain 'SCRUTINIZER-FIREWALL'
-  action :delete
-end
-
-iptables_ng_chain 'SCRUTINIZER-FIREWALL create' do
-  chain 'SCRUTINIZER-FIREWALL'
+iptables_ng_chain 'SCRUTINIZER-FIREWALL' do
   policy 'RETURN [0:0]'
-  action :create
 end
 
 iptables_ng_rule "#{node['scrutinizer-whitelist']['priority']}-SCRUTINIZER-FIREWALL" do
