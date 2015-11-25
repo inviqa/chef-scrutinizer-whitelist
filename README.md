@@ -1,20 +1,24 @@
-# scrutinizer-whitelist
+scrutinizer-whitelist
+=====================
 
 [![](https://travis-ci.org/inviqa/chef-scrutinizer-whitelist.svg?branch=master)](https://travis-ci.org/inviqa/chef-scrutinizer-whitelist)
 
 This cookbook provides iptables rules to grant access to the Scrutinizer CI platform, via the [iptables-ng](https://github.com/chr4-cookbooks/iptables-ng) cookbook.
 
-## Usage
+Usage
+-----
 
 Include `scrutinzer-whitelist` in your run list.
 
-### Attributes
+Attributes
+----------
 
 - `['scrutinizer-whitelist']['source-url']` - The URL of the API endpoint where the IPs can be retrieved. Default `"https://scrutinizer-ci.com/api/meta"`.
 - `['scrutinizer-whitelist']['priority']` - The priority at which to apply the rules. Ensure this is a lower number than any blocking rules. Default `"05"`.
 - `['scrutinizer-whitelist']['ports']` - List of port numbers to open. Default `[22]`.
 
-## Contributing
+Contributing
+------------
 
 Comments, issues and pull requests are all welcome.
 
@@ -22,8 +26,21 @@ To get started working on the repo; fork it, clone it, install the gems and run 
  
     bundle install
     bundle exec rake test
+    
+Supermarket share
+-----------------
 
-## License and Author
+[stove](http://sethvargo.github.io/stove/) is used to create git tags and publish the cookbook on supermarket.chef.io.
+
+To tag/publish you need to be a contributor to the cookbook on Supermarket and run:
+
+    $ stove login --username <your username> --key ~/.chef/<your username>.pem
+    $ rake publish
+    
+It will take the version defined in metadata.rb, create a tag, and push the cookbook to http://supermarket.chef.io/cookbooks/scrutinizer-whitelist
+
+License and Author
+------------------
 
 Author:: Shane Auckland (sauckland@inviqa.com)
 

@@ -9,5 +9,8 @@ RuboCop::RakeTask.new
 require 'foodcritic'
 FoodCritic::Rake::LintTask.new
 
+require 'stove/rake_task'
+Stove::RakeTask.new
+
 task default: %w(rubocop foodcritic chefspec)
 task all: %w(default kitchen:all)
