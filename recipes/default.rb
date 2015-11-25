@@ -17,15 +17,17 @@ ips = JSON.parse(File.read(ip_json_file))
 
 iptables_ng_chain 'SCRUTINIZER-FIREWALL'
 
+ports = node['scrutinizer-whitelist']['ports'].join(',')
+
 iptables_ng_rule "#{node['scrutinizer-whitelist']['priority']}-SCRUTINIZER-FIREWALL" do
-  rule '--jump SCRUTINIZER-FIREWALL'
-  action :create_if_missing
+  rule "--protocol tcp --match multiport --destination-ports #{ports} --jump SCRUTINIZER-FIREWALL"
+  action :create
 end
 
 iptables_ng_rule 'scrutinizer-ipaddresses' do
   chain 'SCRUTINIZER-FIREWALL'
   ip_version 4
   rule ips['hook_ips'].map { |ip|
-    "--source #{ip} --protocol tcp --dport 22 --jump ACCEPT"
+    "--source #{ip} --jump ACCEPT"
   }
 end

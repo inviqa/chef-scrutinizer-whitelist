@@ -10,8 +10,9 @@ Include `scrutinzer-whitelist` in your run list.
 
 ### Attributes
 
-- `['scrutinizer-whitelist']['source-url']` - The URL of the API endpoint where the IPs can be retrieved. Default `https://scrutinizer-ci.com/api/meta`.
-- `['scrutinizer-whitelist']['priority']` - The priority at which to apply the rules. Ensure this is a lower number than any blocking rules. Default `05`.
+- `['scrutinizer-whitelist']['source-url']` - The URL of the API endpoint where the IPs can be retrieved. Default `"https://scrutinizer-ci.com/api/meta"`.
+- `['scrutinizer-whitelist']['priority']` - The priority at which to apply the rules. Ensure this is a lower number than any blocking rules. Default `"05"`.
+- `['scrutinizer-whitelist']['ports']` - List of port numbers to open. Default `[22]`.
 
 ## Contributing
 
