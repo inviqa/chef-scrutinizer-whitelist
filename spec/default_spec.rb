@@ -1,12 +1,4 @@
-describe 'scrutinizer-whitelist::default' do
-  context 'default config' do
-    let(:chef_run) do
-      ChefSpec::SoloRunner.new(file_cache_path: '/var/chef/cache').converge(described_recipe)
-    end
-
-    before do
-      allow(File).to receive(:read).and_call_original
-      allow(File).to receive(:read).with('/var/chef/cache/scrutinizer_ips.json').and_return <<EOF
+api_response = <<EOF
 {
   "hook_ips": [
     "1.2.3.4",
@@ -18,6 +10,18 @@ describe 'scrutinizer-whitelist::default' do
   ]
 }
 EOF
+
+describe 'scrutinizer-whitelist::default' do
+  context 'default config' do
+    let(:chef_run) do
+      ChefSpec::SoloRunner.new(file_cache_path: '/var/chef/cache') do |node|
+        node.set['sshd']['sshd_config']['Port'] = 22
+      end.converge(described_recipe)
+    end
+
+    before do
+      allow(File).to receive(:read).and_call_original
+      allow(File).to receive(:read).with('/var/chef/cache/scrutinizer_ips.json').and_return api_response
     end
 
     it 'should fetch the list if whitelist IPs from the scrutinizer API' do
@@ -60,18 +64,7 @@ EOF
 
     before do
       allow(File).to receive(:read).and_call_original
-      allow(File).to receive(:read).with('/var/chef/cache/scrutinizer_ips.json').and_return <<EOF
-{
-  "hook_ips": [
-    "1.2.3.4",
-    "5.6.7.8"
-  ],
-  "pull_ips": [
-    "1.2.3.4",
-    "5.6.7.8"
-  ]
-}
-EOF
+      allow(File).to receive(:read).with('/var/chef/cache/scrutinizer_ips.json').and_return api_response
     end
 
     it 'should allow the API URL to be configured' do
@@ -85,6 +78,25 @@ EOF
     it 'should allow the enabled ports to be configured' do
       expect(chef_run).to create_iptables_ng_rule('99-SCRUTINIZER-FIREWALL').with(
         rule: '--protocol tcp --match multiport --destination-ports 22,23,24 --jump SCRUTINIZER-FIREWALL'
+      )
+    end
+  end
+
+  context 'different sshd port config is inherited' do
+    let(:chef_run) do
+      ChefSpec::SoloRunner.new(file_cache_path: '/var/chef/cache') do |node|
+        node.set['sshd']['sshd_config']['Port'] = 999
+      end.converge(described_recipe)
+    end
+
+    before do
+      allow(File).to receive(:read).and_call_original
+      allow(File).to receive(:read).with('/var/chef/cache/scrutinizer_ips.json').and_return api_response
+    end
+
+    it 'should use the inherited sshd port config' do
+      expect(chef_run).to create_iptables_ng_rule('05-SCRUTINIZER-FIREWALL').with(
+        rule: '--protocol tcp --match multiport --destination-ports 999 --jump SCRUTINIZER-FIREWALL'
       )
     end
   end
