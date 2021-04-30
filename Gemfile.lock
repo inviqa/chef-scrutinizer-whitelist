@@ -149,7 +149,7 @@ GEM
     rake (13.0.1)
     regexp_parser (1.7.1)
     retryable (3.0.5)
-    rexml (3.2.4)
+    rexml (3.2.5)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
